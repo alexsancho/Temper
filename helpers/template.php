@@ -1,30 +1,27 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Template helper class.
+ * Temper Helper
  *
- * $Id: template.php 11 2008-09-08 07:22:19Z alex.aperez $
- *
- * @package		Temper Module
- * @author		Alex Sancho
- * @copyright	(c) 2008 Alex Sancho
+ * LICENSE
+ * 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
  * 1. Redistributions of source code must retain the above copyright
- *	  notice, this list of conditions and the following disclaimer.
+ *    notice, this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright
- *	  notice, this list of conditions and the following disclaimer in the
- *	  documentation and/or other materials provided with the distribution.
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
  * 3. Neither the name of copyright holders nor the names of its
- *	  contributors may be used to endorse or promote products derived
- *	  from this software without specific prior written permission.
+ *    contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED.	IN NO EVENT SHALL COPYRIGHT HOLDERS OR CONTRIBUTORS
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL COPYRIGHT HOLDERS OR CONTRIBUTORS
  * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
  * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
@@ -32,17 +29,25 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * @version    $Id
+ * @package    Temper
+ * @author     Alex Sancho <alex@alexsancho.name>
+ * @copyright  (c) 2008 Alex Sancho
+ * @license    http://www.opensource.org/licenses/mit-license.php
  */
+
 class template_Core {
 
 	/**
-	 * find
+	 * Find template file
 	 *
-	 * @param string $file name of template
-	 * @param mixed $ext should be a custom extension name or true to use default
-	 * @return mixed template content or false if fail
+ 	 * @param string $file name of template
+ 	 * @param mixed $ext should be a custom extension name or true to use default
 	 * @access public
-	 *
+	 * @return mixed template content or false if fail
+	 * @static
+	 * @author Alex Sancho
 	 */
 	public static function find($file, $ext = true)
 	{
@@ -61,9 +66,10 @@ class template_Core {
 	 *
 	 * @param string $key
 	 * @param mixed $obj
+	 * @access public
 	 * @return mixed
-	 * @access	public
-	 *
+	 * @static
+	 * @author Alex Sancho
 	 */
 	public static function get_var($key, $obj)
 	{
@@ -86,8 +92,9 @@ class template_Core {
 	 * get_list
 	 *
 	 * @param string
+	 * @access public
 	 * @return array
-	 * 
+	 * @author Alex Sancho
 	 */
 	public function get_list($path = 'templates')
 	{
@@ -115,9 +122,11 @@ class template_Core {
 	 *
 	 * @param string $file file name with full path
 	 * @param string $buffer data to write
+	 * @access public
 	 * @return void
-	 * @access protected
-	 *
+	 * @throws Kohana_Exception
+	 * @static
+	 * @author Alex Sancho
 	 */
 	public static function write($file, $buffer)
 	{
@@ -132,4 +141,4 @@ class template_Core {
 		@chmod($file, 0666);
 	}
 
-} //End Template Helper
+} // End Template Helper

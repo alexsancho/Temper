@@ -1,13 +1,11 @@
 <?php defined('SYSPATH') or die('No direct script access.');
+
 /**
  * Temper (Template Parser) Library
  * based on http://ioreader.com/2007/05/08/using-a-stack-to-parse-html/
  *
- * $Id: Temper.php 10 2008-07-20 23:08:13Z alex.aperez $
- *
- * @package    	Temper Module
- * @author     	Alex Sancho
- * @copyright	(c) 2008 Alex Sancho
+ * LICENSE
+ * 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,11 +31,37 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * @version    $Id
+ * @package    Temper
+ * @author     Alex Sancho <alex@alexsancho.name>
+ * @copyright  (c) 2008 Alex Sancho
+ * @license    http://www.opensource.org/licenses/mit-license.php
  */
 class Temper_Core {
 
+	/**
+	 * Buffer
+	 *
+	 * @var mixed
+	 * @access protected
+	 */
     protected $buffer = NULL;
+
+	/**
+	 * Tag Prefix
+	 *
+	 * @var string
+	 * @access protected
+	 */
     protected $tag_prefix;
+
+	/**
+	 * Tag Handlers
+	 *
+	 * @var array
+	 * @access protected
+	 */
     protected $tag_handlers = array();
 
     /**
@@ -49,20 +73,30 @@ class Temper_Core {
      * @access public
      * 
      */
+
+	/**
+	 * Factory
+	 *
+     * @param string $template template name
+     * @param string $buffer buffer data
+	 * @access public
+	 * @return Temper
+	 * @static
+	 * @author Alex Sancho
+	 */
     public static function factory($template = FALSE, $buffer = NULL)
     {
         return new Temper($template, $buffer);
     }
 
-    /**
-     * __construct
-     *
+	/**
+	 * Class Constructor
+	 *
      * @param string $template template name
      * @param string $buffer buffer data
-     * @return void
-     * @access public
-     *
-     */
+	 * @access public
+	 * @author Alex Sancho
+	 */
     public function __construct($template = FALSE, $buffer = NULL)
     {
         spl_autoload_register(array('Temper', 'auto_load'));
@@ -76,27 +110,28 @@ class Temper_Core {
 
         $this->buffer = ($template) ? template::find($template) : $buffer;
     }
-    
-    /**
-     * __toString
-     *
-     * @return string buffer data
-     * @access public
-     *
-     */
+
+	/**
+	 * To String
+	 *
+	 * @access public
+	 * @return string
+	 * @author Alex Sancho
+	 */
     public function __toString()
     {
         return (string) $this->buffer;
     }
-    
-    /**
-     * add_tag
-     *
+
+	/**
+	 * Add Tag
+	 *
      * @param string $tag_name tag name
-     * @return void
-     * @access public
-     *
-     */
+	 * @access public
+	 * @return void
+	 * @throws Kohana_Exception
+	 * @author Alex Sancho
+	 */
     public function add_tag($tag_name)
     {
         $class_name = 'Tag_'.ucfirst($tag_name);
@@ -106,15 +141,16 @@ class Temper_Core {
         
         $this->tag_handlers[$tag_name] = $class_name;
     }
-    
-    /**
-     * get_tag_handler
-     *
+
+	/**
+	 * Get Tag Handler
+	 *
      * @param string $tag_name tag name
      * @return string tag handler class name
-     * @access public
-     *
-     */
+	 * @access public
+	 * @return object
+	 * @author Alex Sancho
+	 */
     public function get_tag_handler($prefix, $tag_name)
     {
         $ret = 'Tag_Unknown';
@@ -124,16 +160,16 @@ class Temper_Core {
         
         return new $ret($prefix, $tag_name);
     }
-    
-    /**
-     * parse
-     *
+
+	/**
+	 * Parse
+	 *
      * @param bool $write set to true to write output as view file
      * @param string $file output file name
-     * @return object
-     * @access public
-     *
-     */
+	 * @access public
+	 * @return object
+	 * @author Alex Sancho
+	 */
     public function parse($write = FALSE, $file = 'temper')
     {
         if ( (int) Kohana::config('temper.allow_php') == 0)
@@ -156,15 +192,15 @@ class Temper_Core {
         return $this;
     }
 
-    /**
-     * auto_load
-     *
-     * @param string $class
-     * @return bool
-     * @access public
-     *
-     */
-    public static function auto_load($class)
+ 	/**
+ 	 * Auto Load
+ 	 *
+     * @param string $class class name
+ 	 * @access public
+ 	 * @return bool
+ 	 * @author Alex Sancho
+ 	 */
+	public static function auto_load($class)
     {
 		if (class_exists($class, FALSE))
 	    	return TRUE;
@@ -183,29 +219,30 @@ class Temper_Core {
         return class_exists($class, FALSE);
     }
 
-    /**
-     * parse_callback
-     *
-     * @return object
-     * @access protected
-     *
-     */
+	/**
+	 * Parse Callback
+	 *
+	 * @access protected
+	 * @return object
+	 * @author Alex Sancho
+	 */
     protected function parse_callback()
     {
         $this->buffer = preg_replace_callback('~{(\%|\/|\=)([^}]*)?}~', array($this, 'parse_vars'), $this->buffer);
         $this->buffer = preg_replace_callback('~{{.*?}}~', array($this, 'parse_funcs'), $this->buffer);
+
         return $this;
     }
 
-    /**
-     * parse_vars
-     *
+	/**
+	 * Parse Vars
+	 *
      * @param array $matches array containing variable matches
-     * @return string parsed string
-     * @access protected
-     *
-     */
-    protected function parse_vars($matches)
+	 * @access protected
+	 * @return string
+	 * @author Alex Sancho
+	 */
+    protected function parse_vars(array $matches)
     {
         if ($matches[1] == '/')
         {
@@ -246,13 +283,14 @@ class Temper_Core {
         return $matches[2];
     }
 
-    /**
-     * parse_funcs
-     *
-     * @param string $matches
-     * @return string
-     *
-     */
+	/**
+	 * Parse Funcs
+	 *
+	 * @param string $matches 
+	 * @access protected
+	 * @return string
+	 * @author Alex Sancho
+	 */
     protected function parse_funcs($matches)
     {
         if (preg_match('/^\{\{([a-zA-Z_0-9]+)\(+([^*]+)\)\}\}$/', $matches[0], $helpers)) 
@@ -282,13 +320,13 @@ class Temper_Core {
         return $matches[0];
     }
 
-    /**
-     * parse_tags
-     *
-     * @return void
-     * @access protected
-     *
-     */
+	/**
+	 * Parse Tags
+	 *
+	 * @access protected
+	 * @return object
+	 * @author Alex Sancho
+	 */
     protected function parse_tags()
     {
 		$parts = preg_split("~<(/?)([".preg_quote($this->tag_prefix)."]+)\:([a-z0-9_]+)((?: [^>]*)?)>~i", $this->buffer, -1, PREG_SPLIT_DELIM_CAPTURE);
@@ -374,16 +412,16 @@ class Temper_Core {
         
         return $this;
     }
-    
-    /**
-     * parse_tag_attributes
-     *
-     * @param object $tag
-     * @param string $attrs
-     * @return void
-     * @access protected
-     *
-     */
+
+	/**
+	 * Parse Tag Attributes
+	 *
+	 * @param Temper_Tag $tag 
+	 * @param string $attrs 
+	 * @access private
+	 * @return void
+	 * @author Alex Sancho
+	 */
     private function parse_tag_attributes(Temper_Tag $tag, $attrs = '')
     {
         $attributes = array();
@@ -400,4 +438,4 @@ class Temper_Core {
         }
     }
 
-} //End Temper Library
+} // End Temper

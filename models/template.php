@@ -1,12 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
+
 /**
- * Template Model.
+ * Temper Model
  *
- * $Id: template.php 12 2008-09-11 08:42:02Z alex.aperez $
- *
- * @package    	Temper Module
- * @author     	Alex Sancho
- * @copyright	(c) 2008 Alex Sancho
+ * LICENSE
+ * 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,17 +30,23 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * @version    $Id
+ * @package    Temper
+ * @author     Alex Sancho <alex@alexsancho.name>
+ * @copyright  (c) 2008 Alex Sancho
+ * @license    http://www.opensource.org/licenses/mit-license.php
  */
-class Template_Model extends Model 
-{
-    /**
-	 * save
+class Template_Model extends Model {
+
+	/**
+	 * Save
 	 *
-	 * @param object $post
-	 * @param string $path
-	 * @return bool
+	 * @param Validation $post 
+	 * @param string $path 
 	 * @access public
-	 *
+	 * @return bool
+	 * @author Alex Sancho
 	 */
 	public function save(Validation $post, $path = 'pages/')
 	{
@@ -59,12 +63,12 @@ class Template_Model extends Model
 	}
 
 	/**
-	 * delete
-	 * 
-	 * @param string $id
-	 * @return boolean
+	 * Delete
+	 *
+	 * @param string $id 
 	 * @access public
-	 * 
+	 * @return bool
+	 * @author Alex Sancho
 	 */
 	public function delete($id)
 	{
@@ -73,4 +77,4 @@ class Template_Model extends Model
 		return unlink(APPPATH.'templates/'.$id.'.'.$ext);
 	}
 
-} //End Template Model
+} // End Template Model

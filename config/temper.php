@@ -1,12 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
+
 /**
- * Temper Config
+ * Temper Configuration
  *
- * $Id: temper.php 11 2008-09-08 07:22:19Z alex.aperez $
- *
- * @package  	Temper Module
- * @author   	Alex Sancho
- * @copyright	(c) 2008 Alex Sancho
+ * LICENSE
+ * 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,6 +30,12 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * @version    $Id
+ * @package    Temper
+ * @author     Alex Sancho <alex@alexsancho.name>
+ * @copyright  (c) 2008 Alex Sancho
+ * @license    http://www.opensource.org/licenses/mit-license.php
  */
  
 $config['tags'] = 'if,else,elseif,for,foreach,switch,case,print,block,import';

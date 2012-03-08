@@ -1,12 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
+
 /**
- * Temper Tag Library
+ * Temper Tag
  *
- * $Id: Temper_Tag.php 9 2008-05-22 20:08:33Z alex.aperez $
- *
- * @package    	Temper Module
- * @author     	Alex Sancho
- * @copyright	(c) 2008 Alex Sancho
+ * LICENSE
+ * 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,33 +30,69 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * @version    $Id
+ * @package    Temper
+ * @author     Alex Sancho <alex@alexsancho.name>
+ * @copyright  (c) 2008 Alex Sancho
+ * @license    http://www.opensource.org/licenses/mit-license.php
  */
 abstract class Temper_Tag implements ArrayAccess {
 
-    protected $buffer = '', $prefix = '', $name = '';
+	/**
+	 * Buffer
+	 *
+	 * @var string
+	 * @access protected
+	 */
+    protected $buffer = '';
 
+	/**
+	 * Prefix
+	 *
+	 * @var string
+	 * @access protected
+	 */
+	protected $prefix = '';
+
+	/**
+	 * Name
+	 *
+	 * @var string
+	 * @access protected
+	 */
+	protected $name = '';
+
+	/**
+	 * Attributes
+	 *
+	 * @var array
+	 * @access private
+	 */
     private $attributes = array();
 
-    /**
-     * __construct
-     *
-     * @param string $prefix
-     * @param string $name
-     * @return void
-     *
-     */
+	/**
+	 * Class Constructor
+	 *
+	 * @param string $prefix 
+	 * @param string $name 
+	 * @access public
+	 * @author Alex Sancho
+	 */
     public function __construct($prefix = '', $name = '')
     {
         $this->prefix = $prefix;
 		$this->name = $name;
     }
 
-    /**
-     * require_attributes
-     *
-     * @return exception
-     *
-     */
+	/**
+	 * Require Attributes
+	 *
+	 * @access public
+	 * @return void
+	 * @throws Kohana_Exception
+	 * @author Alex Sancho
+	 */
     public function require_attributes()
     {
 		foreach(func_get_args() as $attrib)
@@ -70,12 +104,15 @@ abstract class Temper_Tag implements ArrayAccess {
 		}
     }
 
-    /**
-     * require_one
-     *
-     * @return mixed
-     *
-     */
+
+	/**
+	 * Require One
+	 *
+	 * @access public
+	 * @return string
+	 * @throws Kohana_Exception
+	 * @author Alex Sancho
+	 */
     public function require_one()
     {
 		$ret = FALSE;
@@ -98,13 +135,14 @@ abstract class Temper_Tag implements ArrayAccess {
 		return $ret;
     }
 
-    /**
-     * buffer
-     *
-     * @param mixed $buffer
-     * @return mixed 
-     *
-     */
+	/**
+	 * Buffer
+	 *
+	 * @param mixed $buffer 
+	 * @access public
+	 * @return mixed
+	 * @author Alex Sancho
+	 */
     public function buffer($buffer = FALSE)
     {
 		if ($buffer !== FALSE)
@@ -116,83 +154,92 @@ abstract class Temper_Tag implements ArrayAccess {
 	    	return $this->buffer;
 		}
     }
-    
-    /**
-     * add_attributes
-     *
-     * @param array $array
-     * @return void
-     *
-     */
+
+	/**
+	 * Add Attributes
+	 *
+	 * @param array $array 
+	 * @access public
+	 * @return void
+	 * @author Alex Sancho
+	 */
     public function add_attributes(array $array = array())
     {
 		$this->attributes = array_merge($this->attributes, $array);
     }
-    
-    /**
-     * get_name
-     *
-     * @return string
-     *
-     */
+
+	/**
+	 * Get Name
+	 *
+	 * @access public
+	 * @return string
+	 * @author Alex Sancho
+	 */
     public function get_name()
     {
 		return $this->name;
     }
 
-    /**
-     * offsetGet
-     *
-     * @param int $key
-     * @return mixed
-     *
-     */
+	/**
+	 * Offset Get
+	 *
+	 * @param int $key 
+	 * @access public
+	 * @return mixed
+	 * @author Alex Sancho
+	 */
     public function offsetGet($key)
     {
 		return $this->offsetExists($key) ? $this->attributes[$key] : NULL;
     }
-	
-    /**
-     * offsetSet
-     *
-     * @param int $key
-     * @param mixed $val
-     * @return void
-     *
-     */
+
+	/**
+	 * Offset Set
+	 *
+	 * @param int $key 
+	 * @param mixed $val 
+	 * @access public
+	 * @return void
+	 * @author Alex Sancho
+	 */
     public function offsetSet($key, $val)
     {
 		$this->attributes[$key] = $val;
     }
 
-    /**
-     * offsetExists
-     *
-     * @param int $key
-     * @return bool
-     *
-     */
+	/**
+	 * Offset Exist
+	 *
+	 * @param int $key 
+	 * @access public
+	 * @return bool
+	 * @author Alex Sancho
+	 */
     public function offsetExists($key)
     {
 		return isset($this->attributes[$key]);
     }
 
-    /**
-     * offsetUnset
-     *
-     * @param int $key
-     * @return void
-     *
-     */
+	/**
+	 * Offset Unset
+	 *
+	 * @param int $key 
+	 * @access public
+	 * @return void
+	 * @author Alex Sancho
+	 */
     public function offsetUnset($key)
     {
 		unset($this->attributes[$key]);
     }
 
-    /**
-     * parse_buffer
-     *
-     */
+	/**
+	 * Parse Buffer
+	 *
+	 * @access public
+	 * @return void
+	 * @author Alex Sancho
+	 */
     abstract public function parse_buffer();
 
-} //End Temper Tag Library
+} // End Temper Tag
